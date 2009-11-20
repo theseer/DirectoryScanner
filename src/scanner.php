@@ -35,7 +35,7 @@
  * @license    BSD License
  */
 
-namespace TheSeer\Tools\FileSystem {
+namespace TheSeer\Tools {
 
    /**
     * Recursive scanner for files on given filesystem path with the ability to filter
@@ -44,7 +44,7 @@ namespace TheSeer\Tools\FileSystem {
     * @author     Arne Blankerts <arne@blankerts.de>
     * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
     */
-   class Scanner {
+   class DirectoryScanner {
 
       /**
        * List of filter for include shell patterns
@@ -144,9 +144,11 @@ namespace TheSeer\Tools\FileSystem {
        */
       public function __invoke($path) {
          if (!file_exists($path)) {
-            throw new ScannerException("Path '$path' does not exist.", ScannerException::NotFound);
+            throw new DirectoryScannerException("Path '$path' does not exist.", ScannerException::NotFound);
          }
-         $filter = new IncludeExcludeFilter(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path)));
+         $filter = new IncludeExcludeFilterIterator(
+            new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path))
+         );
          $filter->setInclude( count($this->include) ? $this->include : array('*'));
          $filter->setExclude($this->exclude);
          return $filter;
@@ -155,12 +157,12 @@ namespace TheSeer\Tools\FileSystem {
    }
 
    /**
-    * Scanner Exception class
+    * DirectoryScanner Exception class
     *
     * @author     Arne Blankerts <arne@blankerts.de>
     * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
     */
-   class ScannerException extends \Exception {
+   class DirectoryScannerException extends \Exception {
 
       /**
        * Error constant for "notFound" condition

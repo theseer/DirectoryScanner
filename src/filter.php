@@ -35,7 +35,7 @@
  * @license    BSD License
  */
 
-namespace TheSeer\Tools\FileSystem {
+namespace TheSeer\Tools {
 
    /**
     * FilterIterator to accept Items based on include/exclude conditions
@@ -43,7 +43,7 @@ namespace TheSeer\Tools\FileSystem {
     * @author     Arne Blankerts <arne@blankerts.de>
     * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
     */
-   class IncludeExcludeFilter extends \FilterIterator {
+   class IncludeExcludeFilterIterator extends \FilterIterator {
 
       /**
        * List of filter for include shell patterns
@@ -66,7 +66,7 @@ namespace TheSeer\Tools\FileSystem {
        *
        * @return void
        */
-      public function setInclude(Array $inc) {
+      public function setInclude(array $inc) {
          $this->include = $inc;
       }
 
@@ -77,7 +77,7 @@ namespace TheSeer\Tools\FileSystem {
        *
        * @return void
        */
-      public function setExclude(Array $exc) {
+      public function setExclude(array $exc) {
          $this->exclude = $exc;
       }
 
