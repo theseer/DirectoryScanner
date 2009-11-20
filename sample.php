@@ -1,6 +1,6 @@
 <?php
 
-  require 'src/scanner.php';
+  require 'src/directoryscanner.php';
   require 'src/filter.php';
 
   $scanner = new \TheSeer\Tools\DirectoryScanner;

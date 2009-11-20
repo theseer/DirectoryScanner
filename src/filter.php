@@ -66,7 +66,7 @@ namespace TheSeer\Tools {
        *
        * @return void
        */
-      public function setInclude(array $inc) {
+      public function setInclude(array $inc = array()) {
          $this->include = $inc;
       }
 
@@ -77,7 +77,7 @@ namespace TheSeer\Tools {
        *
        * @return void
        */
-      public function setExclude(array $exc) {
+      public function setExclude(array $exc = array()) {
          $this->exclude = $exc;
       }
 
