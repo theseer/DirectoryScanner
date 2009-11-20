@@ -13,7 +13,7 @@
  *     this list of conditions and the following disclaimer in the documentation
  *     and/or other materials provided with the distribution.
  *
- *   * Neither the name of Stefan Priebsch nor the names of contributors
+ *   * Neither the name of Arne Blankerts nor the names of contributors
  *     may be used to endorse or promote products derived from this software
  *     without specific prior written permission.
  *
@@ -37,19 +37,56 @@
 
 namespace TheSeer\Tools\FileSystem {
 
+   /**
+    * FilterIterator to accept Items based on include/exclude conditions
+    *
+    * @author     Arne Blankerts <arne@blankerts.de>
+    * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
+    */
    class IncludeExcludeFilter extends \FilterIterator {
 
+      /**
+       * List of filter for include shell patterns
+       *
+       * @var Array
+       */
       protected $include;
+
+      /**
+       * List of filter for exclude shell patterns
+       *
+       * @var Array
+       */
       protected $exclude;
 
+      /**
+       * Set and by that overwrite the include filter array
+       *
+       * @param Array $inc Array of include pattern strings
+       *
+       * @return void
+       */
       public function setInclude(Array $inc) {
          $this->include = $inc;
       }
 
+      /**
+       * Set and by that overwrite the exclude filter array
+       *
+       * @param Array $exc Array of exclude pattern strings
+       *
+       * @return void
+       */
       public function setExclude(Array $exc) {
          $this->exclude = $exc;
       }
 
+      /**
+       * FilterIterator Method to decide wether or not to include
+       * the current item into the list
+       *
+       * @return void
+       */
       public function accept() {
          $pathname = $this->current()->getPathname();
 

@@ -13,7 +13,7 @@
  *     this list of conditions and the following disclaimer in the documentation
  *     and/or other materials provided with the distribution.
  *
- *   * Neither the name of Stefan Priebsch nor the names of contributors
+ *   * Neither the name of Arne Blankerts nor the names of contributors
  *     may be used to endorse or promote products derived from this software
  *     without specific prior written permission.
  *
@@ -37,39 +37,95 @@
 
 namespace TheSeer\Tools\FileSystem {
 
+   /**
+    * Recursive scanner for files on given filesystem path with the ability to filter
+    * results based on include and exclude patterns
+    *
+    * @author     Arne Blankerts <arne@blankerts.de>
+    * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
+    */
    class Scanner {
 
+      /**
+       * List of filter for include shell patterns
+       *
+       * @var Array
+       */
       protected $include = array();
 
+      /**
+       * List of filter for exclude shell patterns
+       *
+       * @var Array
+       */
       protected $exclude = array();
 
-      public function __construct() {
-      }
-
+      /**
+       * Add a new pattern to the include array
+       *
+       * @param string $inc Pattern to add
+       *
+       * @return void
+       */
       public function addInclude($inc) {
          $this->include[] = $inc;
       }
 
+      /**
+       * get array of current include patterns
+       *
+       * @return Array
+       */
       public function getIncludes() {
          return $this->includes;
       }
 
+      /**
+       * Clear the include pattern array
+       *
+       * @return void
+       */
       public function clearIncludes() {
          $this->includes = array();
       }
 
+      /**
+       * Add a new pattern to the exclude array
+       *
+       * @param string $inc Pattern to add
+       *
+       * @return void
+       */
       public function addExclude($exc) {
          $this->exclude[] = $exc;
       }
 
+      /**
+       * get array of current exclude patterns
+       *
+       * @return Array
+       */
       public function getExcludes() {
          return $this->excludes;
       }
 
+      /**
+       * Clear the exclude pattern array
+       *
+       * @return void
+       */
       public function clearExcludes() {
          $this->excludes = array();
       }
 
+      /**
+       * get an array of splFileObjects from given path matching the
+       * include/exclude patterns
+       *
+       * @param string $path Path to work on
+       *
+       * @return Array of splFileInfo Objects
+       */
       public function getFiles($path) {
          $res = array();
          foreach($this->__invoke($path) as $entry) {
@@ -78,6 +134,14 @@ namespace TheSeer\Tools\FileSystem {
          return $res;
       }
 
+      /**
+       * Magic invoker method to use object in foreach-alike constructs as iterator,
+       * returning splFileObjects matching the include/exclude patterns of given path
+       *
+       * @param string $path Path to work on
+       *
+       * @return Iterator
+       */
       public function __invoke($path) {
          if (!file_exists($path)) {
             throw new ScannerException("Path '$path' does not exist.", ScannerException::NotFound);
@@ -90,7 +154,19 @@ namespace TheSeer\Tools\FileSystem {
 
    }
 
+   /**
+    * Scanner Exception class
+    *
+    * @author     Arne Blankerts <arne@blankerts.de>
+    * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
+    */
    class ScannerException extends \Exception {
+
+      /**
+       * Error constant for "notFound" condition
+       *
+       * @var integer
+       */
       const NotFound = 1;
    }
 
