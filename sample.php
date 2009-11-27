@@ -1,7 +1,8 @@
 <?php
 
   require 'src/directoryscanner.php';
-  require 'src/filter.php';
+  require 'src/filesonlyfilter.php';
+  require 'src/includeexcludefilter.php';
 
   $scanner = new \TheSeer\Tools\DirectoryScanner;
   $scanner->addInclude('*.php');
