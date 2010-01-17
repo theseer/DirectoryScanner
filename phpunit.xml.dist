@@ -20,7 +20,7 @@
     </filter>
 
     <logging>
-        <log type="coverage-html" target="_coverage" charset="UTF-8"  yui="true" highlight="true"/>
+        <log type="coverage-html" target="tests/_coverage" charset="UTF-8"  yui="true" highlight="true"/>
     </logging>
     
 </phpunit>
