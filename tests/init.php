@@ -1,8 +1,6 @@
 <?php
 
   require __DIR__.'/../src/directoryscanner.php';
-  require __DIR__.'/../src/filter.php';
-
-  //require 'PHPUnit/Framework.php';
-
+  require __DIR__.'/../src/filesonlyfilter.php';
+  require __DIR__.'/../src/includeexcludefilter.php';
 
