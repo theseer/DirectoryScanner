@@ -29,7 +29,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * @package    Scanner
+ * @package    DirectoryScanner
  * @author     Arne Blankerts <arne@blankerts.de>
  * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
  * @license    BSD License
@@ -79,7 +79,7 @@ namespace TheSeer\Tools {
        * @return void
        */
       public function setIncludes(array $inc = array()) {
-         $this->includes = $inc;
+         $this->include = $inc;
       }
 
       /**
@@ -88,7 +88,7 @@ namespace TheSeer\Tools {
        * @return Array
        */
       public function getIncludes() {
-         return $this->includes;
+         return $this->include;
       }
 
       /**
@@ -110,7 +110,7 @@ namespace TheSeer\Tools {
        * @return void
        */
       public function setExcludes(array $exc = array()) {
-         $this->excludes = $exc;
+         $this->exclude = $exc;
       }
 
       /**
@@ -119,20 +119,21 @@ namespace TheSeer\Tools {
        * @return Array
        */
       public function getExcludes() {
-         return $this->excludes;
+         return $this->exclude;
       }
 
       /**
        * get an array of splFileObjects from given path matching the
        * include/exclude patterns
        *
-       * @param string $path Path to work on
+       * @param string  $path      Path to work on
+       * @param boolean $recursive Scan recursivly or not
        *
        * @return Array of splFileInfo Objects
        */
-      public function getFiles($path) {
+      public function getFiles($path, $recursive = true) {
          $res = array();
-         foreach($this->__invoke($path) as $entry) {
+         foreach($this->scan($path, $recursive) as $entry) {
             $res[] = $entry;
          }
          return $res;
@@ -140,19 +141,39 @@ namespace TheSeer\Tools {
 
       /**
        * Magic invoker method to use object in foreach-alike constructs as iterator,
-       * returning splFileObjects matching the include/exclude patterns of given path
+       * delegating work to scan() method
+       *
+       * @see scan
        *
        * @param string $path Path to work on
+       * @param boolean $recursive Scan recursivly or not
        *
        * @return Iterator
        */
-      public function __invoke($path) {
+      public function __invoke($path, $recursive = true) {
+         return $this->scan($path, $recursive);
+      }
+
+      /**
+       * Scan given directory for files, returning splFileObjects matching the include/exclude patterns
+       *
+       * @param string $path Path to work on
+       * @param boolean $recursive Scan recursivly or not
+       *
+       * @throws DirectoryScannerException
+       *
+       * @return Iterator
+       */
+      protected function scan($path, $recursive = true) {
          if (!file_exists($path)) {
-            throw new DirectoryScannerException("Path '$path' does not exist.", ScannerException::NotFound);
+            throw new DirectoryScannerException("Path '$path' does not exist.", DirectoryScannerException::NotFound);
          }
-         $filter = new IncludeExcludeFilterIterator(
-            new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path))
-         );
+         if ($recursive) {
+            $worker = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+         } else {
+            $worker = new \DirectoryIterator($path);
+         }
+         $filter = new IncludeExcludeFilterIterator( new FilesOnlyFilterIterator($worker) );
          $filter->setInclude( count($this->include) ? $this->include : array('*'));
          $filter->setExclude($this->exclude);
          return $filter;
@@ -174,6 +195,7 @@ namespace TheSeer\Tools {
        * @var integer
        */
       const NotFound = 1;
+
    }
 
 }
