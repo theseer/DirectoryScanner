@@ -106,12 +106,21 @@ namespace TheSeer\Tools\Tests {
       }
 
       /**
-       * Find all files within given test folder without any filter
+       * Recursivly find all files within given test folder without any filter
        */
       public function testRecursiveFindAllFilesInFolder() {
          $tmp = new DirectoryScanner();
          $x = $tmp->getFiles(__DIR__ . '/_data');
-         $this->assertEquals(4, count($x));
+         $this->assertEquals(5, count($x));
+      }
+
+      /**
+       * Non-Recursivly find all files within given test folder without any filter
+       */
+      public function testNonRecursiveFindAllFilesInFolder() {
+         $tmp = new DirectoryScanner();
+         $x = $tmp->getFiles(__DIR__ . '/_data', false);
+         $this->assertEquals(3, count($x));
       }
 
       /**
@@ -121,6 +130,16 @@ namespace TheSeer\Tools\Tests {
          $tmp = new DirectoryScanner();
          $tmp->addInclude('*.xml');
          $x = $tmp->getFiles(__DIR__ . '/_data');
+         $this->assertEquals(3, count($x));
+      }
+
+      /**
+       * Non-Recursivly find *.xml files within test folder
+       */
+      public function testNonRecursiveFindXMLFilesInFolder() {
+         $tmp = new DirectoryScanner();
+         $tmp->addInclude('*.xml');
+         $x = $tmp->getFiles(__DIR__ . '/_data', false);
          $this->assertEquals(2, count($x));
       }
 
