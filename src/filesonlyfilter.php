@@ -42,6 +42,7 @@ namespace TheSeer\Tools {
     *
     * @author     Arne Blankerts <arne@blankerts.de>
     * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
+    * @version    Release: %version%
     */
    class FilesOnlyFilterIterator extends \FilterIterator {
 

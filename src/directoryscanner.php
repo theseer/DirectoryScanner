@@ -33,6 +33,7 @@
  * @author     Arne Blankerts <arne@blankerts.de>
  * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
  * @license    BSD License
+ * @link       http://github.com/theseer/DirectoryScanner
  */
 
 namespace TheSeer\Tools {
@@ -43,6 +44,7 @@ namespace TheSeer\Tools {
     *
     * @author     Arne Blankerts <arne@blankerts.de>
     * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
+    * @version    Release: %version%
     */
    class DirectoryScanner {
 
