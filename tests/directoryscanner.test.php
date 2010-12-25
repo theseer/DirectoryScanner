@@ -111,7 +111,7 @@ namespace TheSeer\Tools\Tests {
       public function testRecursiveFindAllFilesInFolder() {
          $tmp = new DirectoryScanner();
          $x = $tmp->getFiles(__DIR__ . '/_data');
-         $this->assertEquals(5, count($x));
+         $this->assertEquals(9, count($x));
       }
 
       /**
@@ -150,7 +150,7 @@ namespace TheSeer\Tools\Tests {
          $tmp = new DirectoryScanner();
          $tmp->addExclude('*.xml');
          $x = $tmp->getFiles(__DIR__ . '/_data');
-         $this->assertEquals(2, count($x));
+         $this->assertEquals(6, count($x));
       }
 
       /**
