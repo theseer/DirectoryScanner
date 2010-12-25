@@ -17,9 +17,9 @@
   <email>arne@blankerts.de</email>
   <active>yes</active>
  </lead>
- <date>2010-01-20</date>
+ <date>2010-12-25</date>
  <version>
-  <release>1.0.1</release>
+  <release>1.0.2</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -42,6 +42,9 @@
              <tasks:replace from="%version%" to="version" type="package-info" />
           </file>
           <file name="includeexcludefilter.php" role="php">
+             <tasks:replace from="%version%" to="version" type="package-info" />
+          </file>
+          <file name="phpfilter.php" role="php">
              <tasks:replace from="%version%" to="version" type="package-info" />
           </file>
         </dir>
