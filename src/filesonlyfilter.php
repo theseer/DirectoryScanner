@@ -35,7 +35,7 @@
  * @license    BSD License
  */
 
-namespace TheSeer\Tools {
+namespace TheSeer\DirectoryScanner {
 
    /**
     * FilterIterator to accept on files from a directory iterator

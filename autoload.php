@@ -4,11 +4,11 @@ spl_autoload_register(
       static $classes = null;
       if ($classes === null) {
          $classes = array(
-            'theseer\\tools\\directoryscanner' => '/src/directoryscanner.php',
-            'theseer\\tools\\directoryscannerexception' => '/src/directoryscanner.php',
-            'theseer\\tools\\filesonlyfilteriterator' => '/src/filesonlyfilter.php',
-            'theseer\\tools\\includeexcludefilteriterator' => '/src/includeexcludefilter.php',
-            'theseer\\tools\\phpfilteriterator' => '/src/phpfilter.php'
+            'theseer\\directoryscanner\\directoryscanner' => '/src/directoryscanner.php',
+            'theseer\\directoryscanner\\directoryscannerexception' => '/src/directoryscanner.php',
+            'theseer\\directoryscanner\\filesonlyfilteriterator' => '/src/filesonlyfilter.php',
+            'theseer\\directoryscanner\\includeexcludefilteriterator' => '/src/includeexcludefilter.php',
+            'theseer\\directoryscanner\\phpfilteriterator' => '/src/phpfilter.php'
           );
       }
       $cn = strtolower($class);

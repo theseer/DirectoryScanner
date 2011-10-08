@@ -35,10 +35,9 @@
  * @license    BSD License
  */
 
-namespace TheSeer\Tools\Tests {
+namespace TheSeer\DirectoryScanner\Tests {
 
-   use TheSeer\Tools\DirectoryScanner;
-   use TheSeer\Tools\DirectoryScannerException;
+   use TheSeer\DirectoryScanner\DirectoryScanner;
 
    /**
     * Unit tests for DirectoryScanner class
@@ -98,7 +97,7 @@ namespace TheSeer\Tools\Tests {
       /**
        * Trying to scan a non existend directory should throw an exception
        *
-       * @expectedException \TheSeer\Tools\DirectoryScannerException
+       * @expectedException \TheSeer\DirectoryScanner\Exception
        */
       public function testScanOfNonExistendPath() {
          $tmp = new DirectoryScanner();

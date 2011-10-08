@@ -36,7 +36,7 @@
  * @link       http://github.com/theseer/DirectoryScanner
  */
 
-namespace TheSeer\Tools {
+namespace TheSeer\DirectoryScanner {
 
    /**
     * Recursive scanner for files on given filesystem path with the ability to filter
@@ -168,7 +168,7 @@ namespace TheSeer\Tools {
        */
       protected function scan($path, $recursive = true) {
          if (!file_exists($path)) {
-            throw new DirectoryScannerException("Path '$path' does not exist.", DirectoryScannerException::NotFound);
+            throw new Exception("Path '$path' does not exist.", Exception::NotFound);
          }
          if ($recursive) {
             $worker = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
@@ -189,7 +189,7 @@ namespace TheSeer\Tools {
     * @author     Arne Blankerts <arne@blankerts.de>
     * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
     */
-   class DirectoryScannerException extends \Exception {
+   class Exception extends \Exception {
 
       /**
        * Error constant for "notFound" condition

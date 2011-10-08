@@ -35,7 +35,7 @@
  * @license    BSD License
  */
 
-namespace TheSeer\Tools\Tests {
+namespace TheSeer\DirectoryScanner\Tests {
 
    /**
     * Unit tests for PHPFilter iterator class
@@ -51,7 +51,7 @@ namespace TheSeer\Tools\Tests {
                new \SplFileObject(__DIR__.'/_data/phpfilter/javascript.js')
             )
          );
-         $worker = new \TheSeer\Tools\PHPFilterIterator($list);
+         $worker = new \TheSeer\DirectoryScanner\PHPFilterIterator($list);
          $this->assertFalse($worker->valid());
       }
 
@@ -61,7 +61,7 @@ namespace TheSeer\Tools\Tests {
                new \SplFileObject(__DIR__.'/_data/phpfilter/mixed.html')
             )
          );
-         $worker = new \TheSeer\Tools\PHPFilterIterator($list);
+         $worker = new \TheSeer\DirectoryScanner\PHPFilterIterator($list);
          $this->assertFalse($worker->valid());
       }
 
@@ -72,7 +72,7 @@ namespace TheSeer\Tools\Tests {
                new \SplFileObject(__DIR__.'/_data/phpfilter/stupid.inc')
             )
          );
-         $worker = new \TheSeer\Tools\PHPFilterIterator($list);
+         $worker = new \TheSeer\DirectoryScanner\PHPFilterIterator($list);
          $worker->rewind();
          $this->assertEquals(__DIR__.'/_data/phpfilter/phponly.php', $worker->current()->getPathName());
          $worker->next();
