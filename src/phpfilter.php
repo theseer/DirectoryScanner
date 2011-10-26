@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2010 Arne Blankerts <arne@blankerts.de>
+ * Copyright (c) 2009-2011 Arne Blankerts <arne@blankerts.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -37,26 +37,26 @@
 
 namespace TheSeer\DirectoryScanner {
 
-   /**
-    * FilterIterator to accept only php source files based on content
-    *
-    * @author     Arne Blankerts <arne@blankerts.de>
-    * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
-    * @version    Release: %version%
-    */
-   class PHPFilterIterator extends \FilterIterator {
+    /**
+     * FilterIterator to accept only php source files based on content
+     *
+     * @author     Arne Blankerts <arne@blankerts.de>
+     * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
+     * @version    Release: %version%
+     */
+    class PHPFilterIterator extends \FilterIterator {
 
-      /**
-       * FilterIterator Method to decide wether or not to include
-       * the current item into the list
-       *
-       * @return void
-       */
-      public function accept() {
-         $finfo = new \finfo(FILEINFO_MIME);
-         return strpos($finfo->file($this->current()->getPathname()), 'text/x-php') === 0;
-      }
+        /**
+         * FilterIterator Method to decide wether or not to include
+         * the current item into the list
+         *
+         * @return void
+         */
+        public function accept() {
+            $finfo = new \finfo(FILEINFO_MIME);
+            return strpos($finfo->file($this->current()->getPathname()), 'text/x-php') === 0;
+        }
 
-   }
+    }
 
 }

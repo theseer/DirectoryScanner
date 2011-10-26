@@ -17,10 +17,10 @@
   <email>arne@blankerts.de</email>
   <active>yes</active>
  </lead>
- <date>2010-12-25</date>
+ <date>2011-10-26</date>
  <version>
-  <release>1.0.2</release>
-  <api>1.0.0</api>
+  <release>1.1.0</release>
+  <api>1.1.0</api>
  </version>
  <stability>
   <release>stable</release>
@@ -61,6 +61,9 @@
    </pearinstaller>
    <extension>
     <name>SPL</name>
+   </extension>
+   <extension>
+    <name>fileinfo</name>
    </extension>
   </required>
  </dependencies>
