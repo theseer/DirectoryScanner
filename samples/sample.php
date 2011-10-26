@@ -1,10 +1,8 @@
 <?php
 
-  require 'src/directoryscanner.php';
-  require 'src/filesonlyfilter.php';
-  require 'src/includeexcludefilter.php';
+  require __DIR__ . '/../autoload.php';
 
-  $scanner = new \TheSeer\Tools\DirectoryScanner;
+  $scanner = new \TheSeer\DirectoryScanner\DirectoryScanner;
   $scanner->addInclude('*.php');
   $scanner->addExclude('*filter*');
   $scanner->addExclude('./src/*');
