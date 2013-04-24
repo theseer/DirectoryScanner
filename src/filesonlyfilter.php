@@ -50,7 +50,7 @@ namespace TheSeer\DirectoryScanner {
          * FilterIterator Method to decide wether or not to include
          * the current item into the list
          *
-         * @return void
+         * @return boolean
          */
         public function accept() {
             switch($this->current()->getType()) {

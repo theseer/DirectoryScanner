@@ -83,10 +83,10 @@ namespace TheSeer\DirectoryScanner {
         }
 
         /**
-         * FilterIterator Method to decide wether or not to include
+         * FilterIterator Method to decide whether or not to include
          * the current item into the list
          *
-         * @return void
+         * @return boolean
          */
         public function accept() {
             $pathname = $this->current()->getPathname();

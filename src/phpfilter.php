@@ -47,10 +47,10 @@ namespace TheSeer\DirectoryScanner {
     class PHPFilterIterator extends \FilterIterator {
 
         /**
-         * FilterIterator Method to decide wether or not to include
+         * FilterIterator Method to decide whether or not to include
          * the current item into the list
          *
-         * @return void
+         * @return boolean
          */
         public function accept() {
             $finfo = new \finfo(FILEINFO_MIME);
