@@ -2,6 +2,7 @@ phpunit.xml
 /.buildpath
 /.project
 /.settings/org.eclipse.php.core.prefs
-tests/_coverage
 .idea
 build
+vendor
+composer.lock
