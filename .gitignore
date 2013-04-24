@@ -4,3 +4,4 @@ phpunit.xml
 /.settings/org.eclipse.php.core.prefs
 tests/_coverage
 .idea
+build
