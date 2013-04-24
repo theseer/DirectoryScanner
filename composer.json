@@ -1,5 +1,5 @@
 {
-  "name" : "theseer/directory-scanner", 
+  "name" : "theseer/directoryscanner", 
   "description" : "A recursive directory scanner and filter", 
   "license" : "BSD-2-Clause", 
   "authors" : [
