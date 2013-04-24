@@ -39,6 +39,13 @@ foreach($scanner($argv[2]) as $i) {
         $file = $dom->createElementNS("http://pear.php.net/dtd/package-2.0", 'file');
         $file->setAttribute('baseinstalldir','/');
         $file->setAttribute('role', 'php');
+        if (stripos($i->getPathname(), 'tests/')!==FALSE) {
+             $file->setAttribute('role', 'test');
+        }
+        $doc = array('README.md','LICENSE','phpunit.xml.dist');
+        if (in_array($i->getFilename(), $doc)) {
+             $file->setAttribute('role', 'doc');
+        }
         $file->setAttribute('name', $i->getFilename());
         $ctx->appendChild($file);
     }
