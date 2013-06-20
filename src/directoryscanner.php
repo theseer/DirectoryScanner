@@ -63,6 +63,13 @@ namespace TheSeer\DirectoryScanner {
         protected $exclude = array();
 
         /**
+         * Whether or not to follow symlinks. Only applies when scanning recursively.
+         *
+         * @var bool
+         */
+        protected $followSymlinks = false;
+
+        /**
          * Add a new pattern to the include array
          *
          * @param string $inc Pattern to add
@@ -94,9 +101,27 @@ namespace TheSeer\DirectoryScanner {
         }
 
         /**
+         * @param $followSymlinks
+         *
+         * @return void
+         */
+        public function setFollowSymlinks($followSymlinks) {
+            $this->followSymlinks = (boolean)$followSymlinks;
+        }
+
+        /**
+         * Public function, so it can be tested properly
+         *
+         * @return bool
+         */
+        public function isFollowSymlinks() {
+            return $this->followSymlinks;
+        }
+
+        /**
          * Add a new pattern to the exclude array
          *
-         * @param string $inc Pattern to add
+         * @param string $exc Pattern to add
          *
          * @return void
          */
@@ -150,7 +175,7 @@ namespace TheSeer\DirectoryScanner {
          * @param string $path Path to work on
          * @param boolean $recursive Scan recursivly or not
          *
-         * @return Iterator
+         * @return \Iterator
          */
         public function __invoke($path, $recursive = true) {
             return $this->scan($path, $recursive);
@@ -162,16 +187,19 @@ namespace TheSeer\DirectoryScanner {
          * @param string $path Path to work on
          * @param boolean $recursive Scan recursivly or not
          *
-         * @throws DirectoryScannerException
-         *
-         * @return Iterator
+         * @throws Exception
+         * @return \Iterator
          */
         protected function scan($path, $recursive = true) {
             if (!file_exists($path)) {
                 throw new Exception("Path '$path' does not exist.", Exception::NotFound);
             }
             if ($recursive) {
-                $worker = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
+                $worker = new \RecursiveIteratorIterator(
+                    new \RecursiveDirectoryIterator(
+                        $path, $this->isFollowSymlinks() ? \FilesystemIterator::FOLLOW_SYMLINKS : 0
+                    )
+                );
             } else {
                 $worker = new \DirectoryIterator($path);
             }
