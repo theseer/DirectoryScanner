@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2011 Arne Blankerts <arne@blankerts.de>
+ * Copyright (c) 2009-2013 Arne Blankerts <arne@blankerts.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -185,7 +185,7 @@ namespace TheSeer\DirectoryScanner {
          * Scan given directory for files, returning splFileObjects matching the include/exclude patterns
          *
          * @param string $path Path to work on
-         * @param boolean $recursive Scan recursivly or not
+         * @param boolean $recursive Scan recursively or not
          *
          * @throws Exception
          * @return \Iterator
