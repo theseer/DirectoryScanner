@@ -48,6 +48,19 @@ namespace TheSeer\DirectoryScanner\Tests {
    class DirectoryScannerTest extends \PHPUnit_Framework_TestCase {
 
       /**
+       * Test if enabling following symbolic links works.
+       *
+       */
+      public function testSetFollowSymlinks() {
+         $tmp = new DirectoryScanner();
+         $this->assertFalse($tmp->isFollowSymlinks());
+         $tmp->setFollowSymlinks(TRUE);
+         $this->assertTrue($tmp->isFollowSymlinks());
+         $tmp->setFollowSymlinks(FALSE);
+         $this->assertFalse($tmp->isFollowSymlinks());
+      }
+
+      /**
        * Set the include to be matching for *.txt via setIncludes
        *
        */
