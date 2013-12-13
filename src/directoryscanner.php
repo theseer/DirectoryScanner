@@ -63,11 +63,11 @@ namespace TheSeer\DirectoryScanner {
         protected $exclude = array();
 
         /**
-         * Whether or not to follow symlinks. Only applies when scanning recursively.
+         * Flags to pass on to RecursiveDirectoryIterator on construction
          *
-         * @var bool
+         * @var int
          */
-        protected $followSymlinks = false;
+        protected $flags = 0;
 
         /**
          * Add a new pattern to the include array
@@ -100,13 +100,33 @@ namespace TheSeer\DirectoryScanner {
             return $this->include;
         }
 
+        public function setFlag($flag) {
+            if (!$this->isValidFlag($flag)) {
+                throw new Exception("Invalid flag specified", Exception::InvalidFlag);
+            }
+            $this->flags = $this->flags | $flag;
+        }
+
+
+        public function unsetFlag($flag) {
+            if (!$this->isValidFlag($flag)) {
+                throw new Exception("Invalid flag specified", Exception::InvalidFlag);
+            }
+            $this->flags = $this->flags & ~$flag;
+        }
+
         /**
-         * @param $followSymlinks
+         * @param boolean $followSymlinks
          *
+         * @deprecated Use setFlag / unsetFlag with \FilesystemIterator::FOLLOW_SYMLINKS
          * @return void
          */
         public function setFollowSymlinks($followSymlinks) {
-            $this->followSymlinks = (boolean)$followSymlinks;
+            if ($followSymlinks == true) {
+                $this->setFlag(\FilesystemIterator::FOLLOW_SYMLINKS);
+                return;
+            }
+            $this->unsetFlag(\FilesystemIterator::FOLLOW_SYMLINKS);
         }
 
         /**
@@ -115,7 +135,7 @@ namespace TheSeer\DirectoryScanner {
          * @return bool
          */
         public function isFollowSymlinks() {
-            return $this->followSymlinks;
+            return ($this->flags & \FilesystemIterator::FOLLOW_SYMLINKS) == \FilesystemIterator::FOLLOW_SYMLINKS;
         }
 
         /**
@@ -197,7 +217,7 @@ namespace TheSeer\DirectoryScanner {
             if ($recursive) {
                 $worker = new \RecursiveIteratorIterator(
                     new \RecursiveDirectoryIterator(
-                        $path, $this->isFollowSymlinks() ? \FilesystemIterator::FOLLOW_SYMLINKS : 0
+                        $path, $this->flags
                     )
                 );
             } else {
@@ -207,6 +227,23 @@ namespace TheSeer\DirectoryScanner {
             $filter->setInclude( count($this->include) ? $this->include : array('*'));
             $filter->setExclude($this->exclude);
             return $filter;
+        }
+
+
+        protected function isValidFlag($flag) {
+            return in_array($flag, array(
+                \FilesystemIterator::CURRENT_AS_PATHNAME,
+                \FilesystemIterator::CURRENT_AS_FILEINFO,
+                \FilesystemIterator::CURRENT_AS_SELF,
+                \FilesystemIterator::CURRENT_MODE_MASK,
+                \FilesystemIterator::KEY_AS_PATHNAME,
+                \FilesystemIterator::KEY_AS_FILENAME,
+                \FilesystemIterator::FOLLOW_SYMLINKS,
+                \FilesystemIterator::KEY_MODE_MASK,
+                \FilesystemIterator::NEW_CURRENT_AND_KEY,
+                \FilesystemIterator::SKIP_DOTS,
+                \FilesystemIterator::UNIX_PATHS
+            ));
         }
 
     }
@@ -226,6 +263,12 @@ namespace TheSeer\DirectoryScanner {
          */
         const NotFound = 1;
 
+        /**
+         *  Error condition for invalid flag passed to setFlag/unsetFlag method
+         *
+         * @var integer
+         */
+        const InvalidFlag = 2;
     }
 
 }
