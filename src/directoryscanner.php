@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) 2009-2013 Arne Blankerts <arne@blankerts.de>
+ * Copyright (c) 2009-2014 Arne Blankerts <arne@blankerts.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -180,7 +180,7 @@ namespace TheSeer\DirectoryScanner {
          */
         public function getFiles($path, $recursive = true) {
             $res = array();
-            foreach($this->scan($path, $recursive) as $entry) {
+            foreach($this->getIterator($path, $recursive) as $entry) {
                 $res[] = $entry;
             }
             return $res;
@@ -188,9 +188,9 @@ namespace TheSeer\DirectoryScanner {
 
         /**
          * Magic invoker method to use object in foreach-alike constructs as iterator,
-         * delegating work to scan() method
+         * delegating work to getIterator() method
          *
-         * @see scan
+         * @see getIterator
          *
          * @param string $path Path to work on
          * @param boolean $recursive Scan recursivly or not
@@ -198,7 +198,7 @@ namespace TheSeer\DirectoryScanner {
          * @return \Iterator
          */
         public function __invoke($path, $recursive = true) {
-            return $this->scan($path, $recursive);
+            return $this->getIterator($path, $recursive);
         }
 
         /**
@@ -210,7 +210,7 @@ namespace TheSeer\DirectoryScanner {
          * @throws Exception
          * @return \Iterator
          */
-        protected function scan($path, $recursive = true) {
+        public function getIterator($path, $recursive = true) {
             if (!file_exists($path)) {
                 throw new Exception("Path '$path' does not exist.", Exception::NotFound);
             }
@@ -228,7 +228,6 @@ namespace TheSeer\DirectoryScanner {
             $filter->setExclude($this->exclude);
             return $filter;
         }
-
 
         protected function isValidFlag($flag) {
             return in_array($flag, array(
