@@ -37,145 +37,162 @@
 
 namespace TheSeer\DirectoryScanner\Tests {
 
-   use TheSeer\DirectoryScanner\DirectoryScanner;
+    use TheSeer\DirectoryScanner\DirectoryScanner;
 
-   /**
-    * Unit tests for DirectoryScanner class
-    *
-    * @author     Arne Blankerts <arne@blankerts.de>
-    * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
-    */
-   class DirectoryScannerTest extends \PHPUnit_Framework_TestCase {
+    /**
+     * Unit tests for DirectoryScanner class
+     *
+     * @author     Arne Blankerts <arne@blankerts.de>
+     * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
+     */
+    class DirectoryScannerTest extends \PHPUnit_Framework_TestCase {
 
-      /**
-       * Test if enabling following symbolic links works.
-       *
-       */
-      public function testSetFollowSymlinks() {
-         $tmp = new DirectoryScanner();
-         $this->assertFalse($tmp->isFollowSymlinks());
-         $tmp->setFollowSymlinks(TRUE);
-         $this->assertTrue($tmp->isFollowSymlinks());
-         $tmp->setFollowSymlinks(FALSE);
-         $this->assertFalse($tmp->isFollowSymlinks());
-      }
+        /**
+         * Test if enabling following symbolic links works.
+         */
+        public function testSetFollowSymlinks() {
+            $tmp = new DirectoryScanner();
+            $this->assertFalse($tmp->isFollowSymlinks());
+            $tmp->setFollowSymlinks(TRUE);
+            $this->assertTrue($tmp->isFollowSymlinks());
+            $tmp->setFollowSymlinks(FALSE);
+            $this->assertFalse($tmp->isFollowSymlinks());
+        }
 
-      /**
-       * Set the include to be matching for *.txt via setIncludes
-       *
-       */
-      public function testSetIncludes() {
-         $test = array('*.txt');
-         $tmp = new DirectoryScanner();
-         $tmp->setIncludes($test);
-         $this->assertEquals($test, $tmp->getIncludes());
-      }
+        /**
+         * @expectedException \TheSeer\DirectoryScanner\Exception
+         * @expectedExceptionCode \TheSeer\DirectoryScanner\Exception::InvalidFlag
+         */
+        public function testSettingInvalidFlagThrowsException() {
+            $tmp = new DirectoryScanner();
+            $tmp->setFlag(-1);
+        }
 
-      /**
-       * Set an exclude match on *.txt
-       *
-       */
-      public function testSetExcludes() {
-         $test = array('*.txt');
-         $tmp = new DirectoryScanner();
-         $tmp->setExcludes($test);
-         $this->assertEquals($test, $tmp->getExcludes());
-      }
+        /**
+         * @expectedException \TheSeer\DirectoryScanner\Exception
+         * @expectedExceptionCode \TheSeer\DirectoryScanner\Exception::InvalidFlag
+         */
+        public function testUnSettingInvalidFlagThrowsException() {
+            $tmp = new DirectoryScanner();
+            $tmp->unsetFlag(-1);
+        }
 
-      /**
-       * Adding multiple matches include matches individually
-       *
-       */
-      public function testAddInclude() {
-         $tmp = new DirectoryScanner();
-         $tmp->addInclude('*.txt');
-         $tmp->addInclude('*.xml');
+        /**
+         * Set the include to be matching for *.txt via setIncludes
+         *
+         */
+        public function testSetIncludes() {
+            $test = array('*.txt');
+            $tmp = new DirectoryScanner();
+            $tmp->setIncludes($test);
+            $this->assertEquals($test, $tmp->getIncludes());
+        }
 
-         $this->assertEquals(2, count($tmp->getIncludes()));
-         $this->assertEquals(array('*.txt','*.xml'), $tmp->getIncludes());
-      }
+        /**
+         * Set an exclude match on *.txt
+         *
+         */
+        public function testSetExcludes() {
+            $test = array('*.txt');
+            $tmp = new DirectoryScanner();
+            $tmp->setExcludes($test);
+            $this->assertEquals($test, $tmp->getExcludes());
+        }
 
-      /**
-       * Adding multiple exclude maches individually
-       *
-       */
-      public function testAddExclude() {
-         $tmp = new DirectoryScanner();
-         $tmp->addExclude('*.txt');
-         $tmp->addExclude('*.xml');
+        /**
+         * Adding multiple matches include matches individually
+         *
+         */
+        public function testAddInclude() {
+            $tmp = new DirectoryScanner();
+            $tmp->addInclude('*.txt');
+            $tmp->addInclude('*.xml');
 
-         $this->assertEquals(array('*.txt','*.xml'), $tmp->getExcludes());
-      }
+            $this->assertEquals(2, count($tmp->getIncludes()));
+            $this->assertEquals(array('*.txt', '*.xml'), $tmp->getIncludes());
+        }
 
-      /**
-       * Trying to scan a non existend directory should throw an exception
-       *
-       * @expectedException \TheSeer\DirectoryScanner\Exception
-       */
-      public function testScanOfNonExistendPath() {
-         $tmp = new DirectoryScanner();
-         $tmp(__DIR__ . '/_data//not/existing');
-      }
+        /**
+         * Adding multiple exclude maches individually
+         *
+         */
+        public function testAddExclude() {
+            $tmp = new DirectoryScanner();
+            $tmp->addExclude('*.txt');
+            $tmp->addExclude('*.xml');
 
-      /**
-       * Recursivly find all files within given test folder without any filter
-       */
-      public function testRecursiveFindAllFilesInFolder() {
-         $tmp = new DirectoryScanner();
-         $x = $tmp->getFiles(__DIR__ . '/_data');
-         $this->assertEquals(9, count($x));
-      }
+            $this->assertEquals(array('*.txt', '*.xml'), $tmp->getExcludes());
+        }
 
-      /**
-       * Non-Recursivly find all files within given test folder without any filter
-       */
-      public function testNonRecursiveFindAllFilesInFolder() {
-         $tmp = new DirectoryScanner();
-         $x = $tmp->getFiles(__DIR__ . '/_data', false);
-         $this->assertEquals(3, count($x));
-      }
+        /**
+         * Trying to scan a non existend directory should throw an exception
+         *
+         * @expectedException \TheSeer\DirectoryScanner\Exception
+         */
+        public function testScanOfNonExistendPath() {
+            $tmp = new DirectoryScanner();
+            $tmp(__DIR__ . '/_data//not/existing');
+        }
 
-      /**
-       * Recursivly find *.xml files within test folder
-       */
-      public function testRecursiveFindXMLFilesInFolder() {
-         $tmp = new DirectoryScanner();
-         $tmp->addInclude('*.xml');
-         $x = $tmp->getFiles(__DIR__ . '/_data');
-         $this->assertEquals(3, count($x));
-      }
+        /**
+         * Recursivly find all files within given test folder without any filter
+         */
+        public function testRecursiveFindAllFilesInFolder() {
+            $tmp = new DirectoryScanner();
+            $x = $tmp->getFiles(__DIR__ . '/_data');
+            $this->assertEquals(9, count($x));
+        }
 
-      /**
-       * Non-Recursivly find *.xml files within test folder
-       */
-      public function testNonRecursiveFindXMLFilesInFolder() {
-         $tmp = new DirectoryScanner();
-         $tmp->addInclude('*.xml');
-         $x = $tmp->getFiles(__DIR__ . '/_data', false);
-         $this->assertEquals(2, count($x));
-      }
+        /**
+         * Non-Recursivly find all files within given test folder without any filter
+         */
+        public function testNonRecursiveFindAllFilesInFolder() {
+            $tmp = new DirectoryScanner();
+            $x = $tmp->getFiles(__DIR__ . '/_data', FALSE);
+            $this->assertEquals(3, count($x));
+        }
 
-      /**
-       * Recursivly find all files, not matching *.xml
-       */
-      public function testRecursiveFindByExclude() {
-         $tmp = new DirectoryScanner();
-         $tmp->addExclude('*.xml');
-         $x = $tmp->getFiles(__DIR__ . '/_data');
-         $this->assertEquals(6, count($x));
-      }
+        /**
+         * Recursivly find *.xml files within test folder
+         */
+        public function testRecursiveFindXMLFilesInFolder() {
+            $tmp = new DirectoryScanner();
+            $tmp->addInclude('*.xml');
+            $x = $tmp->getFiles(__DIR__ . '/_data');
+            $this->assertEquals(3, count($x));
+        }
 
-      /**
-       * Find all files matching *.txt and not being in 'nested' folder
-       */
-      public function testRecursiveFindByIncludeAndExclude() {
-         $tmp = new DirectoryScanner();
-         $tmp->addInclude('*.txt');
-         $tmp->addExclude('*/nested/*');
-         $x = $tmp->getFiles(__DIR__ . '/_data');
-         $this->assertEquals(1, count($x));
-      }
+        /**
+         * Non-Recursivly find *.xml files within test folder
+         */
+        public function testNonRecursiveFindXMLFilesInFolder() {
+            $tmp = new DirectoryScanner();
+            $tmp->addInclude('*.xml');
+            $x = $tmp->getFiles(__DIR__ . '/_data', FALSE);
+            $this->assertEquals(2, count($x));
+        }
 
-   }
+        /**
+         * Recursivly find all files, not matching *.xml
+         */
+        public function testRecursiveFindByExclude() {
+            $tmp = new DirectoryScanner();
+            $tmp->addExclude('*.xml');
+            $x = $tmp->getFiles(__DIR__ . '/_data');
+            $this->assertEquals(6, count($x));
+        }
+
+        /**
+         * Find all files matching *.txt and not being in 'nested' folder
+         */
+        public function testRecursiveFindByIncludeAndExclude() {
+            $tmp = new DirectoryScanner();
+            $tmp->addInclude('*.txt');
+            $tmp->addExclude('*/nested/*');
+            $x = $tmp->getFiles(__DIR__ . '/_data');
+            $this->assertEquals(1, count($x));
+        }
+
+    }
 
 }
