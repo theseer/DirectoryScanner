@@ -47,6 +47,7 @@
           <file name="phpfilter.php" role="php">
              <tasks:replace from="%version%" to="version" type="package-info" />
           </file>
+          <file baseinstalldir="/" name="LICENSE" role="doc"/>
         </dir>
       </dir>
    </dir>
