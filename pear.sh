@@ -1,8 +1,12 @@
 #!/bin/sh
-rm -f Directory-Scanner*.tgz
-mkdir -p TheSeer/DirectoryScanner
-cp -r src/* TheSeer/DirectoryScanner
-cp dist.php TheSeer/DirectoryScanner/autoload.php
-cp LICENSE phpunit.xml.dist TheSeer/DirectoryScanner
+rm -f DirectoryScanner*.tgz
+mkdir -p tmp/TheSeer/DirectoryScanner
+mkdir -p tmp/tests
+cp -r src/* tmp/TheSeer/DirectoryScanner
+cp -r tests/* tmp/tests
+cp LICENSE phpunit.xml.dist package.xml tmp
+cd tmp
 pear package
-rm -rf TheSeer
+mv DirectoryScanner*.tgz ..
+cd ..
+rm -rf tmp
