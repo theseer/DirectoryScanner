@@ -25,7 +25,9 @@
  </target>
 
  <target name="testdata">
+     <delete dir="${basedir}/tests/_data/empty" />
      <mkdir dir="${basedir}/tests/_data/empty" />
+     <symlink action="delete" link="${basedir}/tests/_data/linkdir" resource="${basedir}/tests/_data/empty" />
      <symlink link="${basedir}/tests/_data/linkdir" resource="${basedir}/tests/_data/empty" />
  </target>
 
