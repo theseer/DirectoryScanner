@@ -6,3 +6,5 @@ phpunit.xml
 build
 vendor
 composer.lock
+tests/_data/empty
+tests/_data/linkdir
