@@ -37,13 +37,15 @@
 
 namespace TheSeer\DirectoryScanner\Tests {
 
+   use PHPUnit\Framework\TestCase;
+
    /**
     * Unit tests for PHPFilter iterator class
     *
     * @author     Arne Blankerts <arne@blankerts.de>
     * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
     */
-   class PHPFilterIteratorTest extends \PHPUnit_Framework_TestCase {
+   class PHPFilterIteratorTest extends TestCase {
 
       public function testNonPHPFile() {
          $list = new \ArrayIterator(
