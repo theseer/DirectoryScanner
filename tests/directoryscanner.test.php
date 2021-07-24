@@ -37,6 +37,7 @@
 
 namespace TheSeer\DirectoryScanner\Tests {
 
+    use PHPUnit\Framework\TestCase;
     use TheSeer\DirectoryScanner\DirectoryScanner;
 
     /**
@@ -45,7 +46,7 @@ namespace TheSeer\DirectoryScanner\Tests {
      * @author     Arne Blankerts <arne@blankerts.de>
      * @copyright  Arne Blankerts <arne@blankerts.de>, All rights reserved.
      */
-    class DirectoryScannerTest extends \PHPUnit_Framework_TestCase {
+    class DirectoryScannerTest extends TestCase {
 
         /**
          * Test if enabling following symbolic links works.
