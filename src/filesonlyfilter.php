@@ -37,6 +37,8 @@
 
 namespace TheSeer\DirectoryScanner {
 
+    use ReturnTypeWillChange;
+
     /**
      * FilterIterator to accept on files from a directory iterator
      *
@@ -52,6 +54,7 @@ namespace TheSeer\DirectoryScanner {
          *
          * @return boolean
          */
+        #[ReturnTypeWillChange]
         public function accept() {
             switch($this->current()->getType()) {
                 case 'file': {
