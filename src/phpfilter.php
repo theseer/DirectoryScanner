@@ -37,8 +37,6 @@
 
 namespace TheSeer\DirectoryScanner {
 
-    use ReturnTypeWillChange;
-
     /**
      * FilterIterator to accept only php source files based on content
      *
@@ -54,8 +52,7 @@ namespace TheSeer\DirectoryScanner {
          *
          * @return boolean
          */
-        #[ReturnTypeWillChange]
-        public function accept() {
+        public function accept() : bool {
             $finfo = new \finfo(FILEINFO_MIME);
             return strpos($finfo->file($this->current()->getPathname()), 'text/x-php') === 0;
         }

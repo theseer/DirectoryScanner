@@ -37,8 +37,6 @@
 
 namespace TheSeer\DirectoryScanner {
 
-    use ReturnTypeWillChange;
-
     /**
      * FilterIterator to accept Items based on include/exclude conditions
      *
@@ -90,8 +88,7 @@ namespace TheSeer\DirectoryScanner {
          *
          * @return boolean
          */
-        #[ReturnTypeWillChange]
-        public function accept() {
+        public function accept() : bool {
             $pathname = $this->current()->getPathname();
 
             foreach($this->exclude as $out) {
